@@ -350,7 +350,7 @@ class Pocket:
         if 'X-Error-Code' in headers:
             x_error_code = int(headers['X-Error-Code'])
         else:
-            x_error_code = response.status_code
+            x_error_code = 0
 
         exc = PocketException
         if x_error_code in self.auth_error_codes:
