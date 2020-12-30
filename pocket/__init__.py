@@ -347,7 +347,11 @@ class Pocket:
                 headers['X-Limit-Key-Reset']
             ]
 
-        x_error_code = int(headers['X-Error-Code'])
+        if 'X-Error-Code' in headers:
+            x_error_code = int(headers['X-Error-Code'])
+        else:
+            x_error_code = response.status_code
+
         exc = PocketException
         if x_error_code in self.auth_error_codes:
             exc = PocketAutException
@@ -365,6 +369,7 @@ class PocketException(Exception):
     A class that holds all information that could be retrieved
     from the HTTP response.
     """
+
     def __init__(self, http_code, error_code, message, user_limit=None,
                  user_remaining=None, user_reset=None,
                  key_limit=None, key_remaining=None, key_reset=None):
